@@ -8,14 +8,13 @@ use App\Filament\Resources\Transactions\Pages\ListTransactions;
 use App\Filament\Resources\Transactions\Tables\TransactionsTable;
 use App\Models\Transaction;
 use BackedEnum;
-use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
@@ -57,23 +56,6 @@ class TransactionResource extends Resource
                             ->relationship('asset', 'name')
                             ->searchable()
                             ->preload()
-                            ->createOptionForm([
-                                TextInput::make('name')
-                                    ->label('Asset Name')
-                                    ->required()
-                                    ->placeholder('es: Apple Inc.'),
-                                TextInput::make('ticker')
-                                    ->label('Ticker')
-                                    ->required()
-                                    ->placeholder('es: AAPL'),
-                                Select::make('asset_type')
-                                    ->options([
-                                        'stock' => 'Stock',
-                                        'etf' => 'ETF',
-                                        'crypto' => 'Cryptocurrency',
-                                    ])
-                                    ->placeholder('Select asset type'),
-                            ])
                             ->hidden(fn ($get) => in_array($get('type'), ['tax', 'interest'])),
                         
                         Select::make('broker_id')
@@ -131,9 +113,8 @@ class TransactionResource extends Resource
                         
                         Textarea::make('notes')
                             ->label('Notes')
-                            ->placeholder('Add any additional notes...')
-                            ->rows(3)
-                            ->columnSpanFull(),
+                            ->placeholder('Add notes...')
+                            ->rows(3),
                         
                     ]),
             ]),
